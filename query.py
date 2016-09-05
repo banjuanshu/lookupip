@@ -56,7 +56,7 @@ def generate_feedback_results(ip_query):
 	if data['isp']:
 		subtitle = u'运营商: %s %s' % (data['area'], data['isp'])
 	else:
-		subtitle = None
+		subtitle = ''#None
 
 	kwargs = {
 		'title': title,
