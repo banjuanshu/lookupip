@@ -8,6 +8,19 @@
 	<string>Tools</string>
 	<key>connections</key>
 	<dict>
+		<key>47469D55-758A-4AC7-B768-48CDCDD81653</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>D96D2348-AF6D-492A-B0AF-B822FFFD63F9</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>7367F5F3-AA5B-46B0-B220-5721AA879147</key>
 		<array>
 			<dict>
@@ -32,6 +45,23 @@
 	<string>Lookup IP</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>D96D2348-AF6D-492A-B0AF-B822FFFD63F9</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -68,7 +98,12 @@ from alfred.feedback import *
 from query import *
 
 ip_query = "{query}"
-generate_feedback_results(ip_query)</string>
+ip_query = ip_query.strip()
+
+try:
+	generate_feedback_results(ip_query)
+except Exception as e:
+	err(e, '请输入正确的ip地址!')</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -92,17 +127,70 @@ generate_feedback_results(ip_query)</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<true/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>transient</key>
+				<key>alfredfiltersresults</key>
 				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>lip</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>正在转换...</string>
+				<key>script</key>
+				<string>#!/usr/bin/env python
+# coding=utf-8
+
+import os
+import re
+import sys
+import json
+import urllib
+import urllib.request
+import socket 
+import struct
+
+from alfred.feedback import *
+from query import *
+
+query = "{query}"
+query = query.strip()
+
+try:
+	query = int(query)
+except Exception as e:
+	err(e, '请输入正确的数字')
+
+
+ip_query = long2ip(query)
+generate_feedback_results(ip_query)
+
+</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>请输入要转换的数字</string>
+				<key>title</key>
+				<string>将数字转换成ip地址</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>D96D2348-AF6D-492A-B0AF-B822FFFD63F9</string>
+			<string>47469D55-758A-4AC7-B768-48CDCDD81653</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -126,6 +214,13 @@ Alfred 框中输入 lip, 参数可以为:
     lip 199.91.73.222178.79.131.110  # 查询指定的多个 IP 地址</string>
 	<key>uidata</key>
 	<dict>
+		<key>47469D55-758A-4AC7-B768-48CDCDD81653</key>
+		<dict>
+			<key>xpos</key>
+			<integer>190</integer>
+			<key>ypos</key>
+			<integer>220</integer>
+		</dict>
 		<key>7367F5F3-AA5B-46B0-B220-5721AA879147</key>
 		<dict>
 			<key>xpos</key>

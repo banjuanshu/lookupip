@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
 import os
 import re
 import sys
 import json
 import urllib
 import urllib.request
+import socket
+import struct
 
 from alfred.feedback import *
-
 
 
 # Taobao restful query api
@@ -20,15 +20,19 @@ API = 'http://ip.taobao.com/service'
 REGEXP_IP = r'(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)'
 
 def query_ip(ip = None):
-	'''Query the ip information with the taobao api.'''
-	if ip is None: # Query the local ip instead
-		url = API + '/getIpInfo2.php?ip=myip'
-	else:
-		url = '%s/getIpInfo.php?ip=%s' % (API, ip)
+    '''Query the ip information with the taobao api.'''
+    if ip is None: # Query the local ip instead
+        url = API + '/getIpInfo2.php?ip=myip'
+    else:
+        url = '%s/getIpInfo.php?ip=%s' % (API, ip)
+    
+    try:
+        res = urllib.request.urlopen(url).read()
+        res = res.decode('utf-8')
+        return json.loads(res)
+    except Exception as e:
+        err(e, '调用接口失败,请重试!')
 
-	res = urllib.request.urlopen(url).read()
-	res = res.decode('utf-8')
-	return json.loads(res)
 
 def generate_feedback_results(ip_query):
 	'''Generate the feedback results.'''
@@ -68,6 +72,23 @@ def generate_feedback_results(ip_query):
 
 	fb.addItem(**kwargs)
 	fb.output()
+
+def ip2long(ip):
+    return struct.unpack("!I", socket.inet_aton(ipstr))[0]
+
+def long2ip(ip):
+    return socket.inet_ntoa(struct.pack("!I", ip))
+
+def err(e, str):
+    fb = Feedback()
+    kwargs = {
+        'title': '!!!发生错误!!!',
+        'subtitle': str,
+        'arg': '发生异常'
+    }
+    
+    fb.addItem(**kwargs)
+    fb.output()
 
 def main():
 	'''The main entry.'''
