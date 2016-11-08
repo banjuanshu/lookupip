@@ -13,7 +13,6 @@ import struct
 from alfred.feedback import *
 
 
-
 # Taobao restful query api
 API = 'http://ip.taobao.com/service'
 
