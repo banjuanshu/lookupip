@@ -9,6 +9,7 @@ import urllib
 import urllib.request
 import socket
 import struct
+import fcntl
 
 from alfred.feedback import *
 
@@ -71,7 +72,28 @@ def generate_feedback_results(ip_query):
 	}
 
 	fb.addItem(**kwargs)
+
+	#wifi_ip = local_ip('eth0')
+	kwargs = {
+		'title': 'asdasd',
+		'subtitle': 'subtitle',
+		'arg': 'argsssss'
+	}
+	fb.addItem(**kwargs)
+
 	fb.output()
+
+def local_ip(ifname):
+	print(socket.gethostname())
+	ip_address = socket.gethostbyname(socket.gethostname())
+
+	return ip_address
+	#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	#return socket.inet_ntoa(fcntl.ioctl(
+	#	s.fileno(),
+	#	0x8915,  # SIOCGIFADDR
+	#	struct.pack('256s', ifname[:15])
+	#)[20:24])
 
 def ip2long(ip):
     return struct.unpack("!I", socket.inet_aton(ipstr))[0]
@@ -94,9 +116,12 @@ def main():
 	'''The main entry.'''
 	# Note: do not use single quote here, because Alfred doesn't give choice to
 	# escape a single quote.
+	# localip = local_ip('en4')
+	# print (localip)
+	# print (socket.gethostbyname_ex('localhost'))
 
-	ip_query = "{query}"
-	generate_feedback_results(ip_query)
+	# ip_query = "{query}"
+	# generate_feedback_results(ip_query)
 
 if __name__ == '__main__':
 	main()
