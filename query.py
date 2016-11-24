@@ -84,7 +84,6 @@ def generate_feedback_results(ip_query):
 	fb.output()
 
 def local_ip(ifname):
-	print(socket.gethostname())
 	ip_address = socket.gethostbyname(socket.gethostname())
 
 	return ip_address
