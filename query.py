@@ -74,12 +74,12 @@ def generate_feedback_results(ip_query):
 	fb.addItem(**kwargs)
 
 	#wifi_ip = local_ip('eth0')
-	kwargs = {
-		'title': 'asdasd',
-		'subtitle': 'subtitle',
-		'arg': 'argsssss'
-	}
-	fb.addItem(**kwargs)
+	#kwargs = {
+	#	'title': 'asdasd',
+	#	'subtitle': 'subtitle',
+	#	'arg': 'argsssss'
+	#}
+	#fb.addItem(**kwargs)
 
 	fb.output()
 
